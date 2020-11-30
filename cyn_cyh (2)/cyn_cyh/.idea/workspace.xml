@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6e4418ad-fad3-48ae-98fb-3faab1812086" name="默认更改列表" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1kuyj9TZeEaGl2W2umkR32EzpAN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="14" />
+    <property name="project.structure.last.edited" value="模块" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunManager">
+    <configuration name="myFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="myFrame" />
+      <module name="painter" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.myFrame" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e4418ad-fad3-48ae-98fb-3faab1812086" name="默认更改列表" comment="" />
+      <created>1606564904321</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606564904321</updated>
+      <workItem from="1606564906940" duration="3012000" />
+      <workItem from="1606577963064" duration="2874000" />
+      <workItem from="1606615181868" duration="6462000" />
+      <workItem from="1606626244495" duration="6912000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="445" y="48" key="#com.intellij.ide.util.MemberChooser" timestamp="1606579265719">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="445" y="48" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1606579265719" />
+    <state x="232" y="0" key="#项目结构" timestamp="1606564922950">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="232" y="0" key="#项目结构/0.0.1280.680@0.0.1280.680" timestamp="1606564922950" />
+    <state width="1236" height="163" key="GridCell.Tab.0.bottom" timestamp="1606633895176">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1606633895176" />
+    <state width="1236" height="163" key="GridCell.Tab.0.center" timestamp="1606633895176">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1606633895176" />
+    <state width="1236" height="163" key="GridCell.Tab.0.left" timestamp="1606633895176">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1606633895176" />
+    <state width="1236" height="163" key="GridCell.Tab.0.right" timestamp="1606633895176">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1236" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1606633895176" />
+    <state x="134" y="0" key="SettingsEditor" timestamp="1606626895895">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="134" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1606626895894" />
+    <state x="0" y="0" key="new project wizard" timestamp="1606564916862">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="0" y="0" key="new project wizard/0.0.1280.680@0.0.1280.680" timestamp="1606564916862" />
+    <state x="301" y="154" key="run.anything.popup" timestamp="1606632752796">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="301" y="154" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1606632752796" />
+    <state x="303" y="2" width="672" height="678" key="search.everywhere.popup" timestamp="1606629513726">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="2" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1606629513726" />
+  </component>
+</project>
