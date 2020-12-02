@@ -1,25 +1,31 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-public abstract class shape {
+public abstract class shape implements Serializable {
     public Color color = Color.black;
     public int bs = BasicStroke.CAP_BUTT;
+    public int state = 0;
     public abstract void draw(Graphics g);
-    public abstract String getInfo();
     public shape(Color color, int width){
         this.color = color;
         bs = width;
     }
     public shape(){}
+    public abstract void contains(Point P1, Point P2);
+    public abstract void move(Point P1,Point P2);
+    public void endMove()
+    {
+        state = 0;
+    }
 }
 
 class Line extends shape {
     public Point p1 = new Point();
     public Point p2 = new Point();
-
     public Line(Point P1, Point P2, Color color, int width)
     {
         super(color, width);
@@ -30,20 +36,83 @@ class Line extends shape {
     }
 
     @Override
-    public String getInfo()
-    {
-        return "x1="+p1.x+",y1="+p1.y+".x2="+p2.x+",y2="+p2.y;
-    }
-
-    @Override
     public void draw(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(bs));
         g2d.setColor(color);
         g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
     }
+
+    @Override
+    public void contains(Point P1, Point P2) {
+        if(Math.min(p1.x,p2.x) >= Math.min(P1.x,P2.x) && Math.min(p1.y,p2.y) >= Math.min(P1.y,P2.y)){
+            if(Math.max(p1.x,p2.x) <= Math.max(P1.x,P2.x) && Math.max(p1.y,p2.y) <= Math.max(P1.y,P2.y)){
+                state = 1;
+            }
+        }
+    }
+
+    @Override
+    public void move(Point P1, Point P2) {
+        if(state == 1){
+            p1.x = p1.x + P2.x - P1.x;
+            p1.y = p1.y + P2.y - P1.y;
+            p2.x = p2.x + P2.x - P1.x;
+            p2.y = p2.y + P2.y - P1.y;
+        }
+    }
 }
 
+class Curve extends shape{
+    public ArrayList<Line> lines = new ArrayList<>();
+    @Override
+    public void draw(Graphics g) {
+        for (Line l:
+                lines
+             ) {
+            l.draw(g);
+        }
+    }
+
+    @Override
+    public void contains(Point P1, Point P2) {
+        Point pmin = new Point(Math.min(P1.x,P2.x),Math.min(P1.y,P2.y));
+        Point pmax = new Point(Math.max(P1.x,P2.x),Math.max(P1.y,P2.y));
+        for (Line l:
+                lines
+             ) {
+            if(Math.min(l.p1.x,l.p2.x) >= pmin.x && Math.min(l.p1.y,l.p2.y) >= pmin.y &&
+                    Math.max(l.p1.x,l.p2.x) <= pmax.x && Math.max(l.p1.y,l.p2.y) <= pmax.y){
+                    continue;
+            }
+            else
+            {
+                state = 0;
+                return;
+            }
+        }
+        state = 1;
+    }
+
+    @Override
+    public void move(Point P1, Point P2) {
+        if(state == 1) {
+            for (Line l:
+                    lines
+            ) {
+                l.p1.x = l.p1.x + P2.x - P1.x;
+                l.p1.y = l.p1.y + P2.y - P1.y;
+                l.p2.x = l.p2.x + P2.x - P1.x;
+                l.p2.y = l.p2.y + P2.y - P1.y;
+            }
+        }
+    }
+
+    public void addLine(Line l)
+    {
+        lines.add(l);
+    }
+}
 //class Curve extends shape{
 //    public Curve(Point P1, Point P2){
 //        super(P1, P2);
@@ -52,7 +121,6 @@ class Line extends shape {
 //        g.drawLine(p1.x, p1.y, p2.x, p2.y);
 //    }
 //}
-
 class Rectangle extends  shape{
     public Point p1 = new Point();
     public Point p2 = new Point();
@@ -76,9 +144,22 @@ class Rectangle extends  shape{
     }
 
     @Override
-    public String getInfo()
-    {
-        return null;
+    public void contains(Point P1, Point P2) {
+        if(Math.min(p1.x,p2.x) >= Math.min(P1.x,P2.x) && Math.min(p1.y,p2.y) >= Math.min(P1.y,P2.y)){
+            if(Math.max(p1.x,p2.x) <= Math.max(P1.x,P2.x) && Math.max(p1.y,p2.y) <= Math.max(P1.y,P2.y)){
+                state = 1;
+            }
+        }
+    }
+
+    @Override
+    public void move(Point P1, Point P2) {
+        if(state == 1){
+            p1.x = p1.x + P2.x - P1.x;
+            p1.y = p1.y + P2.y - P1.y;
+            p2.x = p2.x + P2.x - P1.x;
+            p2.y = p2.y + P2.y - P1.y;
+        }
     }
 }
 
@@ -109,9 +190,22 @@ class Circle extends  shape{
     }
 
     @Override
-    public String getInfo()
-    {
-        return null;
+    public void contains(Point P1, Point P2) {
+        if(Math.min(p1.x,p2.x) >= Math.min(P1.x,P2.x) && Math.min(p1.y,p2.y) >= Math.min(P1.y,P2.y)){
+            if(Math.max(p1.x,p2.x) <= Math.max(P1.x,P2.x) && Math.max(p1.y,p2.y) <= Math.max(P1.y,P2.y)){
+                state = 1;
+            }
+        }
+    }
+
+    @Override
+    public void move(Point P1, Point P2) {
+        if(state == 1){
+            p1.x = p1.x + P2.x - P1.x;
+            p1.y = p1.y + P2.y - P1.y;
+            p2.x = p2.x + P2.x - P1.x;
+            p2.y = p2.y + P2.y - P1.y;
+        }
     }
 }
 
@@ -138,83 +232,121 @@ class Ellipse extends  shape{
     }
 
     @Override
-    public String getInfo()
-    {
-        return null;
+    public void contains(Point P1, Point P2) {
+        if(Math.min(p1.x,p2.x) >= Math.min(P1.x,P2.x) && Math.min(p1.y,p2.y) >= Math.min(P1.y,P2.y)){
+            if(Math.max(p1.x,p2.x) <= Math.max(P1.x,P2.x) && Math.max(p1.y,p2.y) <= Math.max(P1.y,P2.y)){
+                state = 1;
+            }
+        }
     }
+
+    @Override
+    public void move(Point P1, Point P2) {
+        if(state == 1){
+            p1.x = p1.x + P2.x - P1.x;
+            p1.y = p1.y + P2.y - P1.y;
+            p2.x = p2.x + P2.x - P1.x;
+            p2.y = p2.y + P2.y - P1.y;
+        }
+    }
+
 }
 
 class Fill extends shape{
+    public boolean drawed = false;
     public Point p1 = new Point();
+    public Point pa = new Point();
     public Color color = Color.black;
     public Color formercolor = Color.black;
     private Robot robot = new Robot();
     public ArrayList<Point> points = new ArrayList<>();
 
-    public Fill(Point P1, Color c) throws AWTException {
+    public Fill(Point P1, Point Pa,Color c) throws AWTException {
         p1.x = P1.x;
         p1.y = P1.y;
+        pa.x = Pa.x;
+        pa.y = Pa.y;
         color = c;
-        formercolor = robot.getPixelColor(p1.x, p1.y);
-        System.out.println(formercolor.toString());
+        formercolor = robot.getPixelColor(pa.x, pa.y);
+//        System.out.println("鼠标点击位置坐标为("+p1.x+","+p1.y+")");
+//        System.out.println("鼠标点击位置的像素为"+formercolor.toString());
     }
-
     @Override
     public void draw(Graphics g)
     {
         g.setColor(color);
-        g.drawLine(p1.x, p1.y, p1.x, p1.y);
+        for (Point p:
+                points
+             ) {
+            g.drawLine(p.x,p.y,p.x,p.y);
+        }
+    }
+    public void drawFirst(Graphics g)
+    {
         points.add(p1);
-        Color mycolor1 = robot.getPixelColor(p1.x-1,p1.y);
-        Color mycolor2 = robot.getPixelColor(p1.x,p1.y-1);
-        Color mycolor3 = robot.getPixelColor(p1.x+1,p1.y);
-        Color mycolor4 = robot.getPixelColor(p1.x,p1.y+1);
-        System.out.println(mycolor1.toString());
-        System.out.println(mycolor2.toString());
-        System.out.println(mycolor3.toString());
-        System.out.println(mycolor4.toString());
-//        Point p_1 = new Point(p1.x-1, p1.y);
-//        Point p_2 = new Point(p1.x, p1.y-1);
-//        Point p_3 = new Point(p1.x+1, p1.y);
-//        Point p_4 = new Point(p1.x, p1.y+1);
-//        if(mycolor1.equals(formercolor) && !points.contains(p_1))
-//        {
-//            System.out.println("in direction 11");
-//            points.add(p_1);
-//            drawRecursion(g, p1.x - 1, p1.y,1);
-//        }
-//        if(mycolor2.equals(formercolor) && !points.contains(p_2))
-//        {
-//            System.out.println("in direction 22");
-//            points.add(p_2);
-//            drawRecursion(g, p1.x, p1.y - 1,2);
-//        }
-//        if(mycolor3.equals(formercolor) && !points.contains(p_3))
-//        {
-//            System.out.println("in direction 33");
-//            points.add(p_3);
-//            drawRecursion(g, p1.x + 1, p1.y,3);
-//        }
-//        if(mycolor4.equals(formercolor) && !points.contains(p_4))
-//        {
-//            System.out.println("in direction 44");
-//            points.add(p_4);
-//            drawRecursion(g, p1.x, p1.y + 1,4);
-//        }
-//        System.out.println("递归结束");
-//        for (Point p:
-//                points
-//             ) {
-//            g.drawLine(p.x,p.y,p.x,p.y);
-//        }
+        Color mycolor1 = robot.getPixelColor(pa.x-1,pa.y);
+        Color mycolor2 = robot.getPixelColor(pa.x,pa.y-1);
+        Color mycolor3 = robot.getPixelColor(pa.x+1,pa.y);
+        Color mycolor4 = robot.getPixelColor(pa.x,pa.y+1);
+        Point p_1 = new Point(p1.x-1, p1.y);
+        Point p_2 = new Point(p1.x, p1.y-1);
+        Point p_3 = new Point(p1.x+1, p1.y);
+        Point p_4 = new Point(p1.x, p1.y+1);
+        if(mycolor1.equals(formercolor) && !points.contains(p_1))
+        {
+            points.add(p_1);
+            drawRecursion(g, p1.x - 1, p1.y, pa.x - 1, pa.y, 1);
+        }
+        if(mycolor2.equals(formercolor) && !points.contains(p_2))
+        {
+            points.add(p_2);
+            drawRecursion(g, p1.x, p1.y - 1,pa.x, pa.y - 1,2);
+        }
+        if(mycolor3.equals(formercolor) && !points.contains(p_3))
+        {
+            points.add(p_3);
+            drawRecursion(g, p1.x + 1, p1.y,pa.x + 1, pa.y,3);
+        }
+        if(mycolor4.equals(formercolor) && !points.contains(p_4))
+        {
+            points.add(p_4);
+            drawRecursion(g, p1.x, p1.y + 1,pa.x, pa.y + 1,4);
+        }
     }
 
-    public void drawRecursion(Graphics g,int x, int y, int direction)
+    @Override
+    public void contains(Point P1, Point P2) {
+        Point pmin = new Point(Math.min(P1.x,P2.x),Math.min(P1.y,P2.y));
+        Point pmax = new Point(Math.max(P1.x,P2.x),Math.max(P1.y,P2.y));
+        for (Point p:
+                points
+             ) {
+            if(p.x >= pmin.x && p.y >= pmin.y && p.x <= pmax.x && p.y <= pmax.y){
+                continue;
+            }
+            else {
+                return;
+            }
+        }
+        state = 1;
+    }
+    @Override
+    public void move(Point P1, Point P2) {
+        if(state == 1){
+            for (Point p:
+                    points
+            ){
+                p.x = p.x + P2.x - P1.x;
+                p.y = p.y + P2.y - P1.y;
+            }
+        }
+    }
+    public void drawRecursion(Graphics g,int x, int y, int xa, int ya, int direction)
     {
-        Color mycolor1 = robot.getPixelColor(x-1,y);
-        Color mycolor2 = robot.getPixelColor(x,y-1);
-        Color mycolor3 = robot.getPixelColor(x+1,y);
-        Color mycolor4 = robot.getPixelColor(x,y+1);
+        Color mycolor1 = robot.getPixelColor(xa-1,ya);
+        Color mycolor2 = robot.getPixelColor(xa,ya-1);
+        Color mycolor3 = robot.getPixelColor(xa+1,ya);
+        Color mycolor4 = robot.getPixelColor(xa,ya+1);
         Point p_1 = new Point(x-1, y);
         Point p_2 = new Point(x, y-1);
         Point p_3 = new Point(x+1, y);
@@ -225,17 +357,17 @@ class Fill extends shape{
                     if(mycolor1.equals(formercolor) && !points.contains(p_1))
                     {
                         points.add(p_1);
-                        drawRecursion(g, x - 1, y,1);
+                        drawRecursion(g, x - 1, y,xa-1, ya,1);
                     }
                     if(mycolor2.equals(formercolor) && !points.contains(p_2))
                     {
                         points.add(p_2);
-                        drawRecursion(g, x, y - 1,2);
+                        drawRecursion(g, x, y - 1,xa,ya - 1,2);
                     }
                     if(mycolor4.equals(formercolor) && !points.contains(p_4))
                     {
                         points.add(p_4);
-                        drawRecursion(g, x, y + 1,4);
+                        drawRecursion(g, x, y + 1, xa, ya + 1,4);
                     }
                 }
                 case 2 -> {
@@ -243,17 +375,17 @@ class Fill extends shape{
                     if(mycolor1.equals(formercolor) && !points.contains(p_1))
                     {
                         points.add(p_1);
-                        drawRecursion(g, x - 1, y,1);
+                        drawRecursion(g, x - 1, y,xa-1, ya,1);
                     }
                     if(mycolor2.equals(formercolor) && !points.contains(p_2))
                     {
                         points.add(p_2);
-                        drawRecursion(g, x, y - 1,2);
+                        drawRecursion(g, x, y - 1,xa,ya - 1,2);
                     }
                     if(mycolor3.equals(formercolor) && !points.contains(p_3))
                     {
                         points.add(p_3);
-                        drawRecursion(g, x + 1, y,3);
+                        drawRecursion(g, x + 1, y,xa + 1,ya,3);
                     }
                 }
                 case 3 -> {
@@ -261,17 +393,17 @@ class Fill extends shape{
                     if(mycolor2.equals(formercolor) && !points.contains(p_2))
                     {
                         points.add(p_2);
-                        drawRecursion(g, x, y - 1,2);
+                        drawRecursion(g, x, y - 1,xa,ya - 1,2);
                     }
                     if(mycolor3.equals(formercolor) && !points.contains(p_3))
                     {
                         points.add(p_3);
-                        drawRecursion(g, x + 1, y,3);
+                        drawRecursion(g, x + 1, y,xa + 1,ya,3);
                     }
                     if(mycolor4.equals(formercolor) && !points.contains(p_4))
                     {
                         points.add(p_4);
-                        drawRecursion(g, x, y + 1,4);
+                        drawRecursion(g, x, y + 1,xa, ya + 1,4);
                     }
                 }
                 case 4 -> {
@@ -279,24 +411,20 @@ class Fill extends shape{
                     if(mycolor1.equals(formercolor) && !points.contains(p_1))
                     {
                         points.add(p_1);
-                        drawRecursion(g, x - 1, y,1);
+                        drawRecursion(g, x - 1, y,xa-1, ya,1);
                     }
                     if(mycolor3.equals(formercolor) && !points.contains(p_3))
                     {
                         points.add(p_3);
-                        drawRecursion(g, x + 1, y,3);
+                        drawRecursion(g, x + 1, y,xa + 1,ya,3);
                     }
                     if(mycolor4.equals(formercolor) && !points.contains(p_4))
                     {
                         points.add(p_4);
-                        drawRecursion(g, x, y + 1,4);
+                        drawRecursion(g, x, y + 1,xa, ya + 1,4);
                     }
                 }
             }
     }
-    @Override
-    public String getInfo()
-    {
-        return null;
-    }
+
 }
